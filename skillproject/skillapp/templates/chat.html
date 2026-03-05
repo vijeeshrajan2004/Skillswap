@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room | Skill Swap</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2 style="font-weight: 800; letter-spacing: -1px;">SKILL<span style="color:var(--primary)">SWAP</span></h2>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'swap_requests' %}">Back</a>
+        <span style="color:#38bdf8;">
+            Credits: {{ user.profile.credits }}
+        </span>
+        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+    </div>
+</div>
+
+<section class="section">
+
+    <div class="chat-container">
+
+        <h2 class="chat-title">Chat Room</h2>
+
+        <div class="chat-box">
+            {% for msg in messages %}
+                <div class="chat-message {% if msg.sender == user %}me{% else %}other{% endif %}">
+                    <div class="chat-sender">
+                        {{ msg.sender.first_name|default:msg.sender.email }}
+                    </div>
+                    <div class="chat-text">
+                        {{ msg.text }}
+                    </div>
+                    <div class="chat-time">
+                        {{ msg.timestamp|date:"H:i" }}
+                    </div>
+                </div>
+            {% empty %}
+                <p style="text-align:center; opacity:0.7;">
+                    No messages yet. Start the conversation!
+                </p>
+            {% endfor %}
+        </div>
+
+        <form method="POST" class="chat-form">
+            {% csrf_token %}
+            <input type="text" name="text" placeholder="Type message..." required>
+            <button type="submit">Send</button>
+        </form>
+
+    </div>
+
+</section>
+
+<footer class="footer">
+    <p>© 2026 Skill Swap. Designed for the future of education.</p>
+    <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 10px;">Est. February 2026</p>
+</footer>
+
+</body>
+</html>

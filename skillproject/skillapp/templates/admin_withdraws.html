@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Withdraw Requests</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<section class="section">
+    <h2 style="text-align:center;">Withdraw Requests</h2>
+
+    <div class="admin-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>UPI ID</th>
+                    <th>Status</th>
+                    <th>Approve</th>
+                    <th>Reject</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in withdraws %}
+                <tr>
+                    <td>{{ w.user.username }}</td>
+                    <td>{{ w.amount }} coins</td>
+                    <td>{{ w.upi_id }}</td>
+
+                    <td>
+                        {% if w.status == "Pending" %}
+                            <span class="badge warning">Pending</span>
+                        {% elif w.status == "Approved" %}
+                            <span class="badge success">Approved</span>
+                        {% else %}
+                            <span class="badge danger">Rejected</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if w.status == "Pending" %}
+                        <a href="{% url 'approve_withdraw' w.id %}" class="action-btn">
+                            Approve
+                        </a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if w.status == "Pending" %}
+                        <a href="{% url 'reject_withdraw' w.id %}" class="delete-btn">
+                            Reject
+                        </a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Withdraw Credits</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+     <h2 style="font-weight: 800; letter-spacing: -1px;">SKILL<span style="color:var(--primary)">SWAP</span></h2>
+</div>
+
+<section class="section">
+    <h2 style="text-align:center;">Withdraw Credits</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="payment-card">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Credits to Withdraw (1 Credit = ₹1)</label>
+            <input type="number" name="amount" required>
+
+            <label>Your UPI ID</label>
+            <input type="text" name="upi_id" placeholder="example@upi" required>
+
+            <button type="submit" class="profile-update-btn">
+                Submit Request
+            </button>
+        </form>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="{% url 'withdraw_history' %}" class="btn primary-btn">
+            View Withdraw History
+        </a>
+    </div>
+
+</section>
+
+</body>
+</html>

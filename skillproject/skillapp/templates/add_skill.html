@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Skill | Skill Swap</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2 style="font-weight: 800; letter-spacing: -1px;">SKILL<span style="color:var(--primary)">SWAP</span></h2>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'matches' %}">Matches</a>
+        <a href="{% url 'buy_credits' %}">Buy Credits</a>
+        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+    </div>
+</div>
+
+<section class="section">
+    <h2 style="text-align:center;">Share or Learn a Skill</h2>
+
+    <div class="card" style="max-width:500px; margin:auto;">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Skill Name</label>
+            <input type="text" name="skill" required>
+
+            <label>Type</label>
+            <select name="type">
+                <option value="offer">Offer</option>
+                <option value="want">Want to Learn</option>
+            </select>
+
+            <button type="submit" class="btn primary-btn" style="width:100%; margin-top:15px;">Submit</button>
+        </form>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>© 2026 Skill Swap. Designed for the future of education.</p>
+    <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 10px;">Est. February 2026</p>
+</footer>
+
+</body>
+</html>

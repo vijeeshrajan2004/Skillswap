@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard | Skill Swap</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<!-- Top Admin Header -->
+<div class="admin-header">
+    <h1>Skill Swap Admin Panel</h1>
+    <p>Platform Overview & Analytics</p>
+</div>
+
+<div class="section">
+
+    <!-- ================= DASHBOARD CARDS ================= -->
+    <div class="card-grid">
+
+        <a href="{% url 'admin_users' %}" class="dashboard-card-link">
+            <div class="card">
+                <h3>Total Users</h3>
+                <p class="dashboard-number">{{ total_users }}</p>
+            </div>
+        </a>
+
+        <a href="{% url 'admin_messages' %}" class="dashboard-card-link">
+            <div class="card">
+                <h3>Total Messages</h3>
+                <p class="dashboard-number">{{ total_messages }}</p>
+            </div>
+        </a>
+
+        <a href="{% url 'admin_swaps' %}" class="dashboard-card-link">
+            <div class="card">
+                <h3>Total Swaps</h3>
+                <p class="dashboard-number">{{ total_swaps }}</p>
+            </div>
+        </a>
+
+        <a href="{% url 'admin_completed_swaps' %}" class="dashboard-card-link">
+            <div class="card">
+                <h3>Completed Swaps</h3>
+                <p class="dashboard-number text-success">{{ completed_swaps }}</p>
+            </div>
+        </a>
+
+        <a href="{% url 'admin_swaps' %}" class="dashboard-card-link">
+            <div class="card">
+                <h3>Pending Swaps</h3>
+                <p class="dashboard-number text-warning">{{ pending_swaps }}</p>
+            </div>
+        </a>
+
+        <div class="card">
+            <h3>Total Coins Transferred</h3>
+            <p class="dashboard-number text-coins">{{ total_coins }}</p>
+        </div>
+        <a href="{% url 'admin_withdraws' %}" class="dashboard-card-link">
+    <div class="card">
+        <h3>Withdraw Requests</h3>
+        <div class="dashboard-number text-warning">
+            {{ total_withdraws }}
+        </div>
+        <p>Pending: {{ pending_withdraws }}</p>
+        <p>Approved: {{ approved_withdraws }}</p>
+        <p>Total Withdrawn: {{ total_withdraw_amount }}</p>
+    </div>
+</a>
+
+    </div>
+
+    <!-- ================= RECENT ACTIVITY ================= -->
+
+    <div class="admin-container">
+
+        <h2 class="admin-title">Recent Swaps</h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Requester</th>
+                    <th>Provider</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for swap in recent_swaps %}
+                <tr>
+                    <td>{{ swap.requester.email }}</td>
+                    <td>{{ swap.provider.email }}</td>
+                    <td>
+                        {% if swap.status == "Completed" %}
+                            <span class="badge success">Completed</span>
+                        {% elif swap.status == "Accepted" %}
+                            <span class="badge info">Accepted</span>
+                        {% elif swap.status == "Pending" %}
+                            <span class="badge warning">Pending</span>
+                        {% else %}
+                            <span class="badge danger">Rejected</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align:center;">No recent swaps</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="admin-title" style="margin-top:50px;">Recent Users</h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in recent_users %}
+                <tr>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" style="text-align:center;">No recent users</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

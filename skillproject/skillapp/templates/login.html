@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login | SkillSwap</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body class="auth-body">
+
+<div class="auth-card">
+    <h2>Welcome to SkillSwap!</h2><br>
+
+    {% if form.errors %}
+        <div class="error">Invalid email or password</div>
+    {% endif %}
+
+    {% for message in messages %}
+        <div class="error">{{ message }}</div>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <input type="text" name="username" placeholder="Email" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit" class="auth-btn">Sign In</button>
+    </form>
+
+    <a href="{% url 'register' %}" class="auth-link">
+        Don’t have an account?   Sign Up
+    </a>
+</div>
+
+</body>
+</html>

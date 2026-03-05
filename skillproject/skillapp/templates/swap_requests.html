@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Swap Requests | Skill Swap</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2 style="font-weight: 800; letter-spacing: -1px;">
+        SKILL<span style="color:var(--primary)">SWAP</span>
+    </h2>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'matches' %}">Matches</a>
+        <a href="{% url 'add_skill' %}">Add Skill</a>
+        <span style="color:#38bdf8; font-weight: bold;">
+            Credits: {{ user.profile.credits }}
+        </span>
+        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+    </div>
+</div>
+
+<section class="section">
+    <h2 style="text-align:center;">Swap Requests</h2>
+
+    <!-- MESSAGE BLOCK -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card-grid">
+
+        {% for request in requests %}
+            <div class="card">
+
+                <!-- Show opposite person name -->
+                {% if request.provider == user %}
+                    <h3>{{ request.requester.email }}</h3>
+                    <p style="opacity:0.6;">(Requested You)</p>
+                {% else %}
+                    <h3>{{ request.provider.email }}</h3>
+                    <p style="opacity:0.6;">(You Requested)</p>
+                {% endif %}
+
+                <p><strong>Skill:</strong> {{ request.skill.name }}</p>
+                <p><strong>Duration:</strong> {{ request.duration }} minutes</p>
+
+                <!-- STATUS DISPLAY -->
+                <p>
+                    <strong>Status:</strong>
+                    {% if request.status == "Pending" %}
+                        <span>Pending</span>
+                    {% elif request.status == "Accepted" %}
+                        <span >Accepted</span>
+                    {% elif request.status == "Completed" %}
+                        <span>Completed</span>
+                    {% elif request.status == "Rejected" %}
+                        <span >Rejected</span>
+                    {% endif %}
+                </p>
+
+                <!-- ================= PROVIDER ACTIONS ================= -->
+                {% if request.status == "Pending" and request.provider == user %}
+
+                    <a href="{% url 'accept_swap' request.id %}">
+                        <button class="btn primary-btn">Accept</button>
+                    </a>
+
+                    <a href="{% url 'reject_swap' request.id %}">
+                        <button class="btn secondary-btn">Reject</button>
+                    </a>
+
+                {% endif %}
+
+
+                <!-- ================= AFTER ACCEPT ================= -->
+                {% if request.status == "Accepted" %}
+
+                    <!-- Only show contact to both after accepted -->
+                    <p><strong>Contact Email:</strong> {{ request.requester.email }}</p>
+                    <p><strong>Phone:</strong> {{ request.requester.profile.phone }}</p>
+
+                    <a href="{% url 'chat' request.id %}">
+                        <button class="btn primary-btn">Open Chat</button>
+                    </a>
+
+                    <!-- Only provider can complete -->
+                    {% if request.provider == user %}
+                        <a href="{% url 'complete_swap' request.id %}">
+                            <button class="btn secondary-btn">Mark as Completed</button>
+                        </a>
+                    {% endif %}
+
+                {% endif %}
+
+                <!-- ================= COMPLETED ================= -->
+                {% if request.status == "Completed" %}
+                    <p style="color:lightgreen; font-weight:bold;">
+                        Session Completed ✔ Coins Transferred
+                    </p>
+                {% endif %}
+
+                <!-- ================= REJECTED ================= -->
+                {% if request.status == "Rejected" %}
+                    <p style="color:#ef4444; font-weight:bold;">
+                        Request Rejected
+                    </p>
+                {% endif %}
+
+            </div>
+
+        {% empty %}
+            <div class="card">
+                <p>No swap requests available.</p>
+            </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<footer class="footer">
+    <p>© 2026 Skill Swap. Designed for the future of education.</p>
+    <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 10px;">
+        Est. February 2026
+    </p>
+</footer>
+
+</body>
+</html>

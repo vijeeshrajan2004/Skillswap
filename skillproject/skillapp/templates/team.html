@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Team | Skill Swap</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2 style="font-weight: 800; letter-spacing: -1px;">SKILL<span style="color:var(--primary)">SWAP</span></h2>
+        <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'team' %}">Team</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_skill' %}">Add Skill</a>
+            <a href="{% url 'matches' %}">Matches</a>
+            <a href="{% url 'profile' %}" class="nav-btn">My Profile</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="nav-btn">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<section class="hero">
+    <h1>Meet Our Team</h1>
+    <p>
+        The team behind Skill Swap, combining technical expertise and creative design 
+        to build a collaborative learning platform.
+    </p>
+</section>
+
+<section class="section">
+    <div class="card-grid">
+
+        <!-- BACKEND DEVELOPER -->
+        <div class="card team-card">
+            <img src="{% static '.jpg' %}" class="profile-img" alt="profile">
+            <h3>Nill</h3>
+            <p><strong>Backend Developer</strong></p>
+            <p>
+                Designed and developed the core system architecture using 
+                <strong>Django (Python Framework)</strong>. 
+                Implemented authentication, skill matching logic, swap request workflow, 
+                automated credit transfer system, chat functionality, and 
+                integrated the platform with <strong>MySQL</strong> database.
+            </p>
+        </div>
+
+        <!-- UI/UX DESIGNER -->
+        <div class="card team-card">
+            <img src="{% static '.jpeg' %}" class="profile-img" alt="profile">
+            <h3>Nill</h3>
+            <p><strong>UI/UX Designer</strong></p>
+            <p>
+                Designed the user interface using <strong>HTML and CSS</strong>, 
+                ensuring a responsive and intuitive experience. 
+                Focused on modern layout structure, navigation flow, 
+                visual consistency, and usability optimization.
+            </p>
+        </div>
+
+        <!-- DATABASE MANAGER -->
+        <div class="card team-card">
+            <img src="{% static '.jpg' %}" class="profile-img" alt="profile">
+            <h3>Nill</h3>
+            <p><strong>Database Administrator</strong></p>
+            <p>
+                Structured and managed the relational database using 
+                <strong>MySQL</strong>. Designed normalized schema with 
+                One-to-One, One-to-Many, and Many-to-Many relationships 
+                to efficiently handle users, skills, swaps, credits, and messages.
+            </p>
+        </div>
+        
+
+    </div>
+</section>
+
+<footer class="footer">
+    <p>© 2026 Skill Swap. Designed for the future of education.</p>
+    <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 10px;">Est. February 2026</p>
+</footer>
+
+</body>
+</html>

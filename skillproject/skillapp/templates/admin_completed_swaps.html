@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Completed Swaps</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<div class="admin-container">
+
+    <h2 class="admin-title">Completed Swaps</h2>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Provider</th>
+                <th>Skill</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for swap in swaps %}
+            <tr>
+                <td>{{ swap.requester.email }}</td>
+                <td>{{ swap.provider.email }}</td>
+                <td>{{ swap.skill.name }}</td>
+                <td>{{ swap.duration }} minutes</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    No completed swaps found
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

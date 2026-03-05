@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Withdraw History</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<section class="section">
+    <h2 style="text-align:center;">My Withdraw History</h2>
+
+    <div class="admin-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Amount (₹)</th>
+                    <th>UPI ID</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>₹ {{ item.amount }}</td>
+                    <td>{{ item.upi_id }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if item.status == 'Approved' %}success
+                            {% elif item.status == 'Rejected' %}danger
+                            {% else %}warning{% endif %}">
+                            {{ item.status }}
+                        </span>
+                    </td>
+                    <td>{{ item.created_at }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">No withdraw history</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>
